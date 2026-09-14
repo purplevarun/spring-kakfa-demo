@@ -1,6 +1,11 @@
 spring:
   application:
     name: order
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:host.docker.internal:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
 
 server:
   port: 4003
