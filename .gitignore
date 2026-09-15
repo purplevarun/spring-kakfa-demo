@@ -1,6 +1,8 @@
 # Build output
 target/
 build/
+node_modules/
+*.tsbuildinfo
 *.class
 *.log
 !**/src/main/**/target/

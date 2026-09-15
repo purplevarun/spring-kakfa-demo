@@ -1,0 +1,100 @@
+@import '@fontsource-variable/dm-sans';
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+
+:root {
+  font-family: 'DM Sans Variable', sans-serif;
+  color: #242b31;
+  background: #f6f8f7;
+  font-size: 14px;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --ink: #242b31;
+  --muted: #647079;
+  --line: #e5e9e7;
+  --green: #13745d;
+  --green-light: #e7f4ed;
+  --blue: #3b74c5;
+  --amber: #976516;
+  --coral: #bd6559;
+  --mono: 'IBM Plex Mono', monospace;
+  --heading: 'Space Grotesk Variable', sans-serif;
+}
+* {
+  box-sizing: border-box;
+  letter-spacing: 0;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+button,
+a,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #238a70;
+  outline-offset: 3px;
+}
+input,
+select {
+  min-width: 0;
+}
+svg {
+  flex-shrink: 0;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+h1,
+h2,
+h3 {
+  color: var(--ink);
+}
+h1,
+h2 {
+  font-family: var(--heading);
+}
+code,
+pre {
+  font-family: var(--mono);
+}
+a {
+  color: inherit;
+}
+button {
+  color: inherit;
+}
+::selection {
+  background: #d1ebdf;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
