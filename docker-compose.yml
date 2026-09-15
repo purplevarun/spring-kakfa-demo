@@ -112,7 +112,19 @@ services:
       timeout: 3s
       retries: 5
 
+  frontend-tools:
+    profiles: [tools]
+    build:
+      context: ./frontend
+      target: tooling
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - frontend-node-modules:/app/node_modules
+    command: ["npm", "--help"]
+
 volumes:
   kafka-data:
   inventory-data:
   notification-data:
+  frontend-node-modules:
