@@ -29,6 +29,34 @@ services:
       retries: 12
       start_period: 10s
 
+  inventory-db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: inventory
+      POSTGRES_USER: inventory
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - inventory-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U inventory -d inventory"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  notification-db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: notification
+      POSTGRES_USER: notification
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - notification-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U notification -d notification"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
   order-service:
     build: ./order-service
     image: order-service:latest
@@ -47,8 +75,12 @@ services:
       - "127.0.0.1:4001:4001"
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      DATABASE_URL: jdbc:postgresql://inventory-db:5432/inventory
+      DATABASE_USERNAME: inventory
     depends_on:
       kafka:
+        condition: service_healthy
+      inventory-db:
         condition: service_healthy
 
   notification-service:
@@ -58,9 +90,15 @@ services:
       - "127.0.0.1:4002:4002"
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      DATABASE_URL: jdbc:postgresql://notification-db:5432/notification
+      DATABASE_USERNAME: notification
     depends_on:
       kafka:
+        condition: service_healthy
+      notification-db:
         condition: service_healthy
 
 volumes:
   kafka-data:
+  inventory-data:
+  notification-data:

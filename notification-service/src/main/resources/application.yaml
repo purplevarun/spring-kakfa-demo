@@ -1,16 +1,25 @@
 spring:
   application:
     name: notification
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+  sql:
+    init:
+      mode: always
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     consumer:
       group-id: notification-group
       auto-offset-reset: earliest
+      enable-auto-commit: false
       key-deserializer: org.apache.kafka.common.serialization.IntegerDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
       properties:
         spring.json.use.type.headers: false
         spring.json.value.default.type: java.util.Map
+    listener:
+      ack-mode: record
 
 server:
   port: 4002
