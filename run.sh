@@ -2,26 +2,30 @@
 set -euo pipefail
 
 usage() {
-    printf 'Usage: %s {inventory|notification|order}\n' "${0##*/}"
+    printf 'Usage: %s [all|order|inventory|notification|frontend]\n' "${0##*/}"
+    printf 'With no argument, builds and starts the complete stack.\n'
 }
 
-if [[ $# -ne 1 ]]; then
+if [[ $# -gt 1 ]]; then
     usage >&2
     exit 2
 fi
 
-case "$1" in
+case "${1:-all}" in
+    all)
+        service=""
+        ;;
     inventory|inventory-service)
-        service=inventory
-        port=4001
+        service=inventory-service
         ;;
     notification|notification-service)
-        service=notification
-        port=4002
+        service=notification-service
         ;;
     order|order-service)
-        service=order
-        port=4003
+        service=order-service
+        ;;
+    frontend)
+        service=frontend
         ;;
     -h|--help)
         usage
@@ -45,13 +49,15 @@ if ! docker info >/dev/null 2>&1; then
 fi
 
 project_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-service_name="${service}-service"
-image="${service_name}:latest"
 
-printf 'Building %s...\n' "$service_name"
-docker build --tag "$image" "$project_dir/$service_name"
+if ! docker compose version >/dev/null 2>&1; then
+    printf 'Docker Compose is required.\n' >&2
+    exit 1
+fi
 
-printf 'Starting %s on port %s...\n' "$service_name" "$port"
-exec docker run --rm --init --name "$service_name" \
-    --publish "$port:$port" \
-    "$image"
+printf 'Starting %s with Docker Compose...\n' "${service:-all services}"
+if [[ -z "$service" ]]; then
+    exec docker compose --file "$project_dir/docker-compose.yml" up --build
+else
+    exec docker compose --file "$project_dir/docker-compose.yml" up --build "$service"
+fi

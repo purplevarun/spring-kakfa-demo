@@ -568,6 +568,12 @@ export function Modal({
       className={`modal ${className}`}
       aria-labelledby="modal-title"
       onCancel={onClose}
+      onKeyDown={(event) => {
+        if (event.key === 'Escape') {
+          event.preventDefault()
+          onClose()
+        }
+      }}
       onClick={(event) => {
         if (event.target === dialog.current) onClose()
       }}
