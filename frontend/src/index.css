@@ -1,6 +1,4 @@
 @import '@fontsource-variable/dm-sans';
-@import '@fontsource-variable/space-grotesk';
-@import '@fontsource/ibm-plex-mono/latin-400.css';
 
 :root {
   font-family: 'DM Sans Variable', sans-serif;
@@ -13,13 +11,6 @@
   --ink: #242b31;
   --muted: #647079;
   --line: #e5e9e7;
-  --green: #13745d;
-  --green-light: #e7f4ed;
-  --blue: #3b74c5;
-  --amber: #976516;
-  --coral: #bd6559;
-  --mono: 'IBM Plex Mono', monospace;
-  --heading: 'Space Grotesk Variable', sans-serif;
 }
 * {
   box-sizing: border-box;
@@ -71,14 +62,6 @@ h1,
 h2,
 h3 {
   color: var(--ink);
-}
-h1,
-h2 {
-  font-family: var(--heading);
-}
-code,
-pre {
-  font-family: var(--mono);
 }
 a {
   color: inherit;
